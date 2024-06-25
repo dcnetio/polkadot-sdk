@@ -143,7 +143,7 @@ async fn inner_pipe_from_stream<S, T>(
 			//
 			// Process remaining items and terminate.
 			Either::Right((Either::Right((None, pending_fut)), _)) => {
-				if pending_fut.await.is_err() {
+				if !pending_fut.is_terminated() && pending_fut.await.is_err() {
 					return;
 				}
 
